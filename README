@@ -1,4 +1,23 @@
-Stages (aka targets):
+The high level scripts are build-image.sh which creates the images
+tagged with rchk-build-r and rchk-pkgcheck. build-R.sh then uses the
+rchk-build-r image to build R and pkgcheck.sh checks packages.
+
+Sample usage:
+
+./build-images.sh unstable openblas libopenblas-dev
+./build-R.sh unstable openblas -bo
+( mkdir -p build/pkg && cd build/pkg &&  curl -LO https://rforge.net/Cairo/snapshot/Cairo_1.7-1.tar.gz )
+./chk-pkgs.sh unstable openblas
+
+The first two arguments are <debian-tag> <flavor> where the latter is simply
+a name to give to the images to distinguish the different kinds and the former
+is the base of the debian system (stable, testing, unstable ...).
+
+build-R.sh and chk-pkgs.sh bind the $(pwd)/build directory to /build in the containers
+and it is where R is built and then /build/pkg is where the packages and the check results
+will be - details below. The R-devel sources are included in the build-r image in /src/R.
+
+docker/Dockerfile stages (aka targets):
 
 base - setup debian system, installs rcheckserver + build-dep; build args:
   DEBIAN_TAG=unstable - which debian base image to use (testing, unstable, stable etc.)
