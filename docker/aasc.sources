@@ -1,0 +1,5 @@
+Types: deb
+URIs: https://statmath.wu.ac.at/AASC/debian/
+Suites: stable testing
+Components: main
+Signed-By: /etc/apt/keyrings/aasc-archive.pgp
